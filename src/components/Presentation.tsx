@@ -1,30 +1,27 @@
 import React from 'react';
 
 const Presentation: React.FC = () => {
-  const youtubeUrl = import.meta.env.VITE_PANADOL_YOUTUBE_URL || 'https://www.youtube.com/@panadol';
-  const websiteUrl = import.meta.env.VITE_PANADOL_WEBSITE_URL || 'https://www.panadol.com';
   const appName = import.meta.env.VITE_APP_NAME || 'Panadol';
   const appDescription = import.meta.env.VITE_APP_DESCRIPTION || 'Alivio confiable para el dolor y la fiebre';
 
-  const handleDownloadImage = () => {
-    // Crear un canvas con el contenido de la presentación
-    const element = document.querySelector('.presentation-content') as HTMLElement;
-    if (element) {
-      // Usar html2canvas para capturar la presentación
-      import('html2canvas').then(({ default: html2canvas }) => {
-        html2canvas(element, {
-          backgroundColor: '#fef3c7',
-          scale: 2,
-          useCORS: true
-        }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = `${appName.toLowerCase()}-presentation.png`;
-          link.href = canvas.toDataURL();
-          link.click();
-        });
-      });
-    }
-  };
+  // Si necesitas la función de descarga, cámbiala así:
+  // const handleDownloadImage = () => {
+  //   const element = document.querySelector('.presentation-content') as HTMLElement;
+  //   if (element) {
+  //     import('html2canvas').then(({ default: html2canvas }) => {
+  //       html2canvas(element, {
+  //         background: '#fef3c7',
+  //         scale: 2,
+  //         useCORS: true
+  //       }).then(canvas => {
+  //         const link = document.createElement('a');
+  //         link.download = `${appName.toLowerCase()}-presentation.png`;
+  //         link.href = canvas.toDataURL();
+  //         link.click();
+  //       });
+  //     });
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-amber-100 flex items-center justify-center p-4">
