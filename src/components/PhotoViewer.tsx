@@ -3,11 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
 
-// Importar assets UI
-import btnDescargarImagen from '../assets/ui/buttons/btn_descargar imagen.png';
-import btnDescargarCupon from '../assets/ui/buttons/btn_descargar cupón.png';
-import btnCompartir from '../assets/ui/buttons/btn_compartir.png';
+// Importar assets esenciales
 import cuponDescuento from '../assets/ui/coupons/Cupón descuento.png';
+import marcoFoto from '../assets/ui/backgrounds/Marco Fotografía (2).png';
 
 const PhotoViewer = () => {
   const { id } = useParams<{ id: string }>();
@@ -60,35 +58,59 @@ const PhotoViewer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-500 to-green-300 flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        {/* Zona de calor (screenshot) */}
+    <div className="relative min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-700 via-green-500 to-green-300 overflow-hidden">
+      {/* Shapes decorativos en el fondo */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Círculos grandes */}
+        <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+        <div className="absolute bottom-20 right-20 w-32 h-32 bg-white/10 rounded-full blur-xl" />
+        {/* Triángulos y otros shapes */}
+        <div className="absolute top-1/3 left-1/4 w-16 h-16 rotate-12" style={{clipPath:'polygon(50% 0%, 0% 100%, 100% 100%)', background:'rgba(255,255,255,0.08)'}} />
+        <div className="absolute bottom-1/4 right-1/3 w-12 h-12 rotate-45" style={{clipPath:'polygon(50% 0%, 0% 100%, 100% 100%)', background:'rgba(255,255,255,0.10)'}} />
+      </div>
+
+      <div className="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center z-10">
+        {/* Zona de calor (screenshot) con marco */}
         <div className="flex flex-col items-center">
-          <div className="bg-white/10 rounded-2xl p-4 shadow-lg w-full max-w-xs">
-            <div className="bg-black rounded-xl overflow-hidden border-4 border-white/30">
+          <div className="relative w-64 h-[420px] flex items-center justify-center">
+            {/* Marco fotográfico */}
+            <img src={marcoFoto} alt="Marco Fotográfico" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" draggable={false} />
+            {/* Foto */}
+            <div className="relative w-[180px] h-[320px] bg-black rounded-xl overflow-hidden border-4 border-white/30 z-10 flex items-center justify-center">
               {loading ? (
-                <div className="flex items-center justify-center h-80 text-white">Cargando foto...</div>
+                <div className="flex items-center justify-center h-full text-white">Cargando foto...</div>
               ) : photoUrl ? (
-                <img src={photoUrl} alt="Zona de calor" className="w-full h-auto object-contain" />
+                <img src={photoUrl} alt="Zona de calor" className="w-full h-full object-contain" />
               ) : null}
             </div>
           </div>
-          <button onClick={handleDownloadImage} className="mt-4">
-            <img src={btnDescargarImagen} alt="Descargar Imagen" className="h-12" />
+          <button
+            onClick={handleDownloadImage}
+            className="mt-4 px-6 py-2 bg-white text-green-700 font-bold rounded-full shadow hover:bg-green-100 transition"
+          >
+            Descargar Imagen
           </button>
         </div>
 
         {/* UI principal */}
         <div className="flex flex-col items-center text-center gap-6">
-          <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg">¡ALIVIATE DE LA GRIPE!</h1>
+          <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg">¡ALÍVIATE DE LA GRIPE!</h1>
           <p className="text-lg md:text-2xl text-white/90 font-medium">GRACIAS POR FORMAR PARTE DE ESTA EXPERIENCIA</p>
-          <img src={cuponDescuento} alt="Cupón descuento" className="w-72 md:w-96 mx-auto" />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-green-900 font-bold text-lg">10% DESCUENTO</span>
+            <img src={cuponDescuento} alt="Cupón descuento" className="w-72 md:w-96 mx-auto" />
+          </div>
           <div className="flex flex-col md:flex-row gap-4 w-full justify-center items-center">
-            <button className="w-full md:w-auto">
-              <img src={btnDescargarCupon} alt="Descargar Cupón" className="h-12" />
+            <button
+              className="w-full md:w-auto px-6 py-2 bg-yellow-400 text-green-900 font-bold rounded-full shadow hover:bg-yellow-300 transition"
+            >
+              Descargar Cupón
             </button>
-            <button onClick={handleShare} className="w-full md:w-auto">
-              <img src={btnCompartir} alt="Compartir" className="h-12" />
+            <button
+              onClick={handleShare}
+              className="w-full md:w-auto px-6 py-2 bg-green-800 text-white font-bold rounded-full shadow hover:bg-green-700 transition"
+            >
+              Compartir
             </button>
           </div>
         </div>
