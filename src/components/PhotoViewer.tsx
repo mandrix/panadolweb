@@ -5,7 +5,8 @@ import { storage } from '../firebase';
 
 // Importar assets esenciales
 import cuponDescuento from '../assets/ui/coupons/Cupón descuento.png';
-import marcoFoto from '../assets/ui/backgrounds/Marco Fotografía (2).png';
+import bgDesktop from '../assets/ui/backgrounds/desktop.png';
+import bgMobile from '../assets/ui/backgrounds/mobile.png';
 
 const PhotoViewer = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,7 +36,6 @@ const PhotoViewer = () => {
     setLoading(false);
   };
 
-  // Descargar imagen de la zona de calor
   const handleDownloadImage = () => {
     if (photoUrl) {
       const link = document.createElement('a');
@@ -45,7 +45,6 @@ const PhotoViewer = () => {
     }
   };
 
-  // Compartir (puedes personalizar la lógica)
   const handleShare = () => {
     if (navigator.share && photoUrl) {
       navigator.share({
@@ -58,24 +57,16 @@ const PhotoViewer = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-700 via-green-500 to-green-300 overflow-hidden">
-      {/* Shapes decorativos en el fondo */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Círculos grandes */}
-        <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-white/10 rounded-full blur-xl" />
-        {/* Triángulos y otros shapes */}
-        <div className="absolute top-1/3 left-1/4 w-16 h-16 rotate-12" style={{clipPath:'polygon(50% 0%, 0% 100%, 100% 100%)', background:'rgba(255,255,255,0.08)'}} />
-        <div className="absolute bottom-1/4 right-1/3 w-12 h-12 rotate-45" style={{clipPath:'polygon(50% 0%, 0% 100%, 100% 100%)', background:'rgba(255,255,255,0.10)'}} />
-      </div>
-
+    <div
+      className="relative min-h-screen flex items-center justify-center p-4 bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${window.innerWidth >= 768 ? bgDesktop : bgMobile})`,
+      }}
+    >
       <div className="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center z-10">
-        {/* Zona de calor (screenshot) con marco */}
+        {/* Zona de calor (solo screenshot) */}
         <div className="flex flex-col items-center">
           <div className="relative w-64 h-[420px] flex items-center justify-center">
-            {/* Marco fotográfico */}
-            <img src={marcoFoto} alt="Marco Fotográfico" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" draggable={false} />
-            {/* Foto */}
             <div className="relative w-[180px] h-[320px] bg-black rounded-xl overflow-hidden border-4 border-white/30 z-10 flex items-center justify-center">
               {loading ? (
                 <div className="flex items-center justify-center h-full text-white">Cargando foto...</div>
@@ -119,4 +110,4 @@ const PhotoViewer = () => {
   );
 };
 
-export default PhotoViewer; 
+export default PhotoViewer;
