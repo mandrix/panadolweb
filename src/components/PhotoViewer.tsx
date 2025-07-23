@@ -66,14 +66,17 @@ const PhotoViewer = () => {
       <div className="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center z-10">
         {/* Zona de calor (solo screenshot) */}
         <div className="flex flex-col items-center">
-          <div className="relative w-64 h-[420px] flex items-center justify-center">
-            <div className="relative w-[180px] h-[320px] bg-black rounded-xl overflow-hidden border-4 border-white/30 z-10 flex items-center justify-center">
-              {loading ? (
-                <div className="flex items-center justify-center h-full text-white">Cargando foto...</div>
-              ) : photoUrl ? (
-                <img src={photoUrl} alt="Zona de calor" className="w-full h-full object-contain" />
-              ) : null}
-            </div>
+          <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md flex items-center justify-center">
+            {loading ? (
+              <div className="flex items-center justify-center w-full h-[320px] text-white">Cargando foto...</div>
+            ) : photoUrl ? (
+              <img
+                src={photoUrl}
+                alt="Zona de calor"
+                className="w-full h-auto object-contain"
+                style={{ maxHeight: 420 }}
+              />
+            ) : null}
           </div>
           <button
             onClick={handleDownloadImage}
